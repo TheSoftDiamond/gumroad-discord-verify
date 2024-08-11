@@ -12,6 +12,7 @@ A simple discord bot that I created that will allow users to verify a license ke
 1. To setup run the following commands
 ```npm
 npm install discord.js
+npm install dotenv
 ```
 
 2. Populate the categories in the .env file (Rename env.example to .env):
