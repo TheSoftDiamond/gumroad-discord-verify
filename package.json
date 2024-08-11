@@ -1,6 +1,6 @@
 {
-  "name": "sofbot",
-  "version": "2.0.0",
+  "name": "gumroadbot",
+  "version": "1.0.0",
   "description": "Discord Bot",
   "main": "index.js",
   "scripts": {
