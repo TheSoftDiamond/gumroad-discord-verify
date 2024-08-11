@@ -14,7 +14,7 @@ A simple discord bot that I created that will allow users to verify a license ke
 npm install discord.js
 ```
 
-2. Populate the categories in the .env file:
+2. Populate the categories in the .env file (Rename env.example to .env):
 ```env   
 DISCORD_TOKEN=""
 CLIENTID = ""
