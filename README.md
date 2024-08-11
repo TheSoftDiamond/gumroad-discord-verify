@@ -9,7 +9,18 @@ A simple discord bot that I created that will allow users to verify a license ke
 - [Discord.JS](https://discord.js.org/) (v14.x or higher)
 
 ### Setup
-To setup run the following commands
+1. To setup run the following commands
 ```npm
 npm install discord.js
+```
+
+2. Populate the categories in the .env file:
+```env   
+DISCORD_TOKEN=""
+CLIENTID = ""
+OWNERID = ""
+ADMINROLEID = ""
+SERVERID = ""
+GUMROADPRODUCTID = ""
+SUCCESSROLEID=""
 ```
