@@ -24,3 +24,5 @@ SERVERID = ""
 GUMROADPRODUCTID = ""
 SUCCESSROLEID=""
 ```
+
+You may need to run `node deploy-commands`
