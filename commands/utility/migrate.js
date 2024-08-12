@@ -11,12 +11,12 @@ module.exports = {
         .setDescription('Verify your license key from gumroad')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption(option =>
-                    option.setName('OldUserID')
+                    option.setName('oldUserID')
                     .setDescription('Old User ID to migrate')
                     .setRequired(true)
         )
         .addStringOption(option =>
-            option.setName('NewUserID')
+            option.setName('newUserID')
             .setDescription('New User ID to usr')
             .setRequired(true)
         ),
@@ -25,8 +25,8 @@ module.exports = {
         const member = await interaction.guild.members.fetch(interaction.user.id);
         const roleID = process.env.SUCCESSROLEID;
         const role = interaction.guild.roles.cache.get(roleID);
-        const OldUser = interaction.options.getString('OldUserID');
-        const NewUser = interaction.options.getString('NewUserID');
+        const oldUser = interaction.options.getString('oldUserID');
+        const newUser = interaction.options.getString('newUserID');
        
     },
 };
