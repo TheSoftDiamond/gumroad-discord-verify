@@ -25,15 +25,23 @@ function insertUser(user_id, licenseKey) {
   });
 }
 
-function migrateUser(old_user_id, new_user_id, licenseKey) {
+function migrateUser(old_user_id, new_user_id) {
   db.serialize(() => {
-    db.run(`
+    db.get(`
       UPDATE users
        SET user_id = ?
-       WHERE license_key = ? AND user_id = ?`,
-      [new_user_id, licenseKey, old_user_id]
+       WHERE user_id = ?`,
+      [new_user_id, old_user_id],
+      (err, result) => {
+        if (err) {
+          console.error(err);
+        }
+        return result;
+      }
     );
   });
+
+  return null;
 }
 
 function checkLicense(licenseKey) {
