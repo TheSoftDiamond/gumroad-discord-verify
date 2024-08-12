@@ -1,8 +1,10 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const sqlite3 = require('sqlite3');
 require('dotenv').config();
 const ownerID = process.env.OWNERID
 const admidID = process.env.ADMINROLEID
 const productid = process.env.GUMROADPRODUCTID
+const databaseName = process.env.DATABASENAME
 
 module.exports = {
     category: 'utility',
