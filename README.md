@@ -13,6 +13,7 @@ A simple discord bot that I created that will allow users to verify a license ke
 ```npm
 npm install discord.js
 npm install dotenv
+npm install sqlite3
 ```
 
 2. Populate the categories in the .env file (Rename env.example to .env):
