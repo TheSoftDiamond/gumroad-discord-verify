@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const database = require('deploy-database');
 require('dotenv').config();
 const ownerID = process.env.OWNERID
 const admidID = process.env.ADMINROLEID
@@ -35,12 +36,20 @@ module.exports = {
           .then(response => response.json())
           .then(async data => {
               console.log(data);
-              status=data.success;
+              let status=data.success;
               if (status){
                   if (role) {
-                    await member.roles.add(role);
-                    await interaction.reply({ content:`Your license key has been verified`, ephemeral: true });
-                    //TODO: Setup a database that binds the users ID to the license key, this will be a job for Kanoli and a /migrate command will come too
+                    const keysFound = database.checkLicense(licensekey);
+                    if (keysFound === 0) {
+                      await member.roles.add(role);
+                      await interaction.reply({ content:`Your license key has been verified`, ephemeral: true });
+                      database.insertUser(interaction.user.id, licensekey);
+                    } else if (keysFound === -1) {
+                      await interaction.reply({ content:`An error occurred while verifying your license key. Please try again later`, ephemeral: true });
+                    } else {
+                      await interaction.reply({ content:`This key has already been used by another user`, ephemeral: true });
+                      console.log('%s tried to redeem a license key that has already been used: %s', member.name, licensekey);
+                    }
                 } else {
                     await interaction.reply({ content: 'Role not found.', ephemeral: true });
                 }

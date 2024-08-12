@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const sqlite3 = require('sqlite3');
+const database = require('../../deploy-database');
 require('dotenv').config();
 const ownerID = process.env.OWNERID
 const admidID = process.env.ADMINROLEID
@@ -9,7 +9,7 @@ const databaseName = process.env.DATABASENAME
 module.exports = {
     category: 'utility',
     data: new SlashCommandBuilder()
-        .setName('verify')
+        .setName('migrate')
         .setDescription('Verify your license key from gumroad')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption(option =>
