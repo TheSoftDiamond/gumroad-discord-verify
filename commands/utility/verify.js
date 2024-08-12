@@ -3,6 +3,7 @@ require('dotenv').config();
 const ownerID = process.env.OWNERID
 const admidID = process.env.ADMINROLEID
 const productid = process.env.GUMROADPRODUCTID
+const databaseName = process.env.DATABASENAME
 
 module.exports = {
     category: 'utility',
