@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const database = require('deploy-database');
+const database = require('../../deploy-database.js');
 require('dotenv').config();
 const ownerID = process.env.OWNERID
 const admidID = process.env.ADMINROLEID
@@ -40,15 +40,16 @@ module.exports = {
               if (status){
                   if (role) {
                     const keysFound = database.checkLicense(licensekey);
-                    if (keysFound === 0) {
+                    if (keysFound == 0) {
                       await member.roles.add(role);
                       await interaction.reply({ content:`Your license key has been verified`, ephemeral: true });
                       database.insertUser(interaction.user.id, licensekey);
-                    } else if (keysFound === -1) {
+                    } else if (keysFound == -1) {
                       await interaction.reply({ content:`An error occurred while verifying your license key. Please try again later`, ephemeral: true });
                     } else {
                       await interaction.reply({ content:`This key has already been used by another user`, ephemeral: true });
-                      console.log('%s tried to redeem a license key that has already been used: %s', member.name, licensekey);
+                      console.log('%s tried to redeem a license key that has already been used: %s', member.tag, licensekey);
+                      console.log(keysFound);
                     }
                 } else {
                     await interaction.reply({ content: 'Role not found.', ephemeral: true });
