@@ -45,23 +45,24 @@ function migrateUser(old_user_id, new_user_id) {
 }
 
 function checkLicense(licenseKey) {
-  let count = -1;
-  db.serialize(() => {
+  return new Promise((resolve, reject) => {
     db.get(`
-      SELECT COUNT(license_key)
+      SELECT COUNT(license_key) as count
        FROM users
        WHERE license_key = ?`,
       [licenseKey],
       (err, result) => {
         if (err) {
           console.error(err);
+          reject(err);
         }
-        count = result;
+        else {
+          console.log(result);
+          resolve(result.count === 0);
+        }
       }
     );
   });
-
-  return (count == 0);
 }
 
 exports.initializeDatabase = initializeDatabase;

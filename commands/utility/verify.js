@@ -35,29 +35,28 @@ module.exports = {
           })
           .then(response => response.json())
           .then(async data => {
-              console.log(data);
-              let status=data.success;
-              if (status){
-                  if (role) {
-                    const keysFound = database.checkLicense(licensekey);
-                    if (keysFound == 0) {
+            console.log(data);
+            let status = data.success;
+            if (status) {
+              if (role) {
+                database.checkLicense(licensekey)
+                  .then(async isValid => {
+                    if (isValid) {
                       await member.roles.add(role);
-                      await interaction.reply({ content:`Your license key has been verified`, ephemeral: true });
+                      await interaction.reply({ content: `Your license key has been verified`, ephemeral: true });
                       database.insertUser(interaction.user.id, licensekey);
-                    } else if (keysFound == -1) {
-                      await interaction.reply({ content:`An error occurred while verifying your license key. Please try again later`, ephemeral: true });
                     } else {
-                      await interaction.reply({ content:`This key has already been used by another user`, ephemeral: true });
-                      console.log('%s tried to redeem a license key that has already been used: %s', member.tag, licensekey);
-                      console.log(keysFound);
+                      await interaction.reply({ content: `This key has already been used by another user`, ephemeral: true });
+                      console.log('%s tried to redeem a license key that has already been used: %s', interaction.user.tag, licensekey);
                     }
-                } else {
-                    await interaction.reply({ content: 'Role not found.', ephemeral: true });
-                }
+                  }).catch(err => console.error('Error checking license: ', err));
+              } else {
+                await interaction.reply({ content: 'Role not found.', ephemeral: true });
               }
-              else{
-                  await interaction.reply({ content:`Your license key was not able to be verified or was an invalid key`, ephemeral: true });
-              }
+            }
+            else {
+              await interaction.reply({ content: `Your license key was not able to be verified or was an invalid key`, ephemeral: true });
+            }
           })
           .catch(error => {
             console.error('Error:', error);
