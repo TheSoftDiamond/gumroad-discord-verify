@@ -26,22 +26,24 @@ function insertUser(user_id, licenseKey) {
 }
 
 function migrateUser(old_user_id, new_user_id) {
-  db.serialize(() => {
+  return new Promise((resolve, reject) => {
     db.get(`
       UPDATE users
        SET user_id = ?
-       WHERE user_id = ?`,
+       WHERE user_id = ?
+       RETURNING *`,
       [new_user_id, old_user_id],
       (err, result) => {
         if (err) {
           console.error(err);
+          reject(err);
+        } else {
+          console.log(result);
+          resolve(result);
         }
-        return result;
       }
     );
   });
-
-  return null;
 }
 
 function checkLicense(licenseKey) {
