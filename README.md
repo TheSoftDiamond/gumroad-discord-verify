@@ -11,9 +11,7 @@ A simple discord bot that I created that will allow users to verify a license ke
 ### Setup
 1. To setup run the following commands
 ```npm
-npm install discord.js
-npm install dotenv
-npm install sqlite3
+npm install discord.js dotenv sqlite3
 ```
 
 2. Populate the categories in the .env file (Rename env.example to .env):
@@ -25,6 +23,7 @@ ADMINROLEID = ""
 SERVERID = ""
 GUMROADPRODUCTID = ""
 SUCCESSROLEID=""
+DATABASENAME""
 ```
 
-You may need to run `node deploy-commands`
+You may need to run `node deploy-commands` and `node deploy-database`
