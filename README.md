@@ -23,7 +23,7 @@ ADMINROLEID = ""
 SERVERID = ""
 GUMROADPRODUCTID = ""
 SUCCESSROLEID=""
-DATABASENAME""
+DATABASENAME=""
 ```
 
 You may need to run `node deploy-commands` and `node deploy-database`
