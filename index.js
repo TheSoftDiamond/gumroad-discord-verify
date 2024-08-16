@@ -6,6 +6,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const token = process.env.DISCORD_TOKEN;
 
+const database = require('./deploy-database.js');
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessages] });
 
 client.cooldowns = new Collection();
@@ -29,6 +31,7 @@ for (const folder of commandFolders) {
 
 client.once(Events.ClientReady, readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+	database.initializeDatabase();
 });
 
 client.on(Events.InteractionCreate, async interaction => {
