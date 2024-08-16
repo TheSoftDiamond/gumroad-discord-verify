@@ -13,12 +13,12 @@ module.exports = {
         .setDescription('Verify your license key from gumroad')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption(option =>
-                    option.setName('oldUserID')
-                    .setDescription('Old User ID to migrate')
-                    .setRequired(true)
+            option.setName('olduser')
+            .setDescription('Old User ID to migrate')
+            .setRequired(true)
         )
         .addStringOption(option =>
-            option.setName('newUserID')
+            option.setName('newuser')
             .setDescription('New User ID to usr')
             .setRequired(true)
         ),

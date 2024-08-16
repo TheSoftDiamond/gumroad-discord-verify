@@ -1,6 +1,6 @@
-# gumroad-discord-verify
+# Discord-Js-Template
 
-A simple discord bot that I created that will allow users to verify a license key for a given product id. Once this is done the user will be a given a role. This bot only works in the server ID that it is binded to within the .envfile.
+A Template for future bots that I write, most code will be similar to this starting out.
 
 ### Prerequisites
 
