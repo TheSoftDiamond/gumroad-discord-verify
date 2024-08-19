@@ -12,7 +12,6 @@ function initializeDatabase() {
         license_key TEXT
       )
     `);
-    db.close();
   });
 }
 
@@ -23,46 +22,50 @@ function insertUser(user_id, licenseKey) {
        VALUES (?, ?)`,
       [user_id, licenseKey]
     );
-    db.close();
   });
 }
 
-function migrateUser(old_user_id, new_user_id, licenseKey) {
+function migrateUser(old_user_id, new_user_id) {
   db.serialize(() => {
-    db.run(`
+    db.get(`
       UPDATE users
        SET user_id = ?
-       WHERE license_key = ? AND user_id = ?`,
-      [new_user_id, licenseKey, old_user_id]
+       WHERE user_id = ?`,
+      [new_user_id, old_user_id],
+      (err, result) => {
+        if (err) {
+          console.error(err);
+        }
+        return result;
+      }
     );
-    db.close();
   });
+
+  return null;
 }
 
 function checkLicense(licenseKey) {
-  let count = -1;
-  db.serialize(() => {
+  return new Promise((resolve, reject) => {
     db.get(`
-      SELECT COUNT(license_key)
+      SELECT COUNT(license_key) as count
        FROM users
        WHERE license_key = ?`,
       [licenseKey],
       (err, result) => {
         if (err) {
           console.error(err);
+          reject(err);
         }
-        count = result;
+        else {
+          console.log(result);
+          resolve(result.count === 0);
+        }
       }
     );
-    db.close();
   });
-
-  return (count == 0);
 }
 
-exports = {
-  initializeDatabase,
-  insertUser,
-  migrateUser,
-  checkLicense
-}
+exports.initializeDatabase = initializeDatabase;
+exports.insertUser = insertUser;
+exports.migrateUser = migrateUser;
+exports.checkLicense = checkLicense;

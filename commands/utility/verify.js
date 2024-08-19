@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const database = require('../../deploy-database.');
+const database = require('../../deploy-database.js');
 require('dotenv').config();
 const ownerID = process.env.OWNERID
 const admidID = process.env.ADMINROLEID
@@ -35,20 +35,28 @@ module.exports = {
           })
           .then(response => response.json())
           .then(async data => {
-              console.log(data);
-              status=data.success;
-              if (status){
-                  if (role) {
-                    await member.roles.add(role);
-                    await interaction.reply({ content:`Your license key has been verified`, ephemeral: true });
-                    //TODO: Setup a database that binds the users ID to the license key, this will be a job for Kanoli and a /migrate command will come too
-                } else {
-                    await interaction.reply({ content: 'Role not found.', ephemeral: true });
-                }
+            console.log(data);
+            let status = data.success;
+            if (status) {
+              if (role) {
+                database.checkLicense(licensekey)
+                  .then(async isValid => {
+                    if (isValid) {
+                      await member.roles.add(role);
+                      await interaction.reply({ content: `Your license key has been verified`, ephemeral: true });
+                      database.insertUser(interaction.user.id, licensekey);
+                    } else {
+                      await interaction.reply({ content: `This key has already been used by another user`, ephemeral: true });
+                      console.log('%s tried to redeem a license key that has already been used: %s', interaction.user.tag, licensekey);
+                    }
+                  }).catch(err => console.error('Error checking license: ', err));
+              } else {
+                await interaction.reply({ content: 'Role not found.', ephemeral: true });
               }
-              else{
-                  await interaction.reply({ content:`Your license key was not able to be verified or was an invalid key`, ephemeral: true });
-              }
+            }
+            else {
+              await interaction.reply({ content: `Your license key was not able to be verified or was an invalid key`, ephemeral: true });
+            }
           })
           .catch(error => {
             console.error('Error:', error);
