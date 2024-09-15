@@ -1,4 +1,4 @@
-# Discord-Js-Template
+# Gumroad Discord Verification Bot
 
 A Template for future bots that I write, most code will be similar to this starting out.
 
