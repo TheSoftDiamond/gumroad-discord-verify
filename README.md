@@ -1,6 +1,6 @@
 # Gumroad Discord Verification Bot
 
-A Template for future bots that I write, most code will be similar to this starting out.
+A simple bot for verifying purchases on Discord from Gumroad for a specific product id.
 
 ### Prerequisites
 
